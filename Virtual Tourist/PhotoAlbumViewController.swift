@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PhotoAlbumViewController.swift
 //  Virtual Tourist
 //
 //  Created by Baraa Hesham on 5/12/19.
@@ -8,21 +8,14 @@
 
 import UIKit
 import MapKit
-
-class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
+class PhotoAlbumViewController: UIViewController,MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
+        // Do any additional setup after loading the view.
     }
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print(view.annotation?.coordinate)
-    }
-
-    
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"
@@ -41,21 +34,4 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         
         return pinView
     }
-    
-    
-    @IBAction func onMapLongPress(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == UILongPressGestureRecognizer.State.began{
-            let location = sender.location(in: self.mapView)
-            
-            let coordinates = self.mapView.convert(location, toCoordinateFrom: self.mapView)
-            
-            
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinates
-            
-            self.mapView.addAnnotation(annotation)
-        }
-        
-    }
 }
-

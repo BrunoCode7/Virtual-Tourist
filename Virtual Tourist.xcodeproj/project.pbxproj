@@ -13,6 +13,7 @@
 		ED4F640222879EBF00FCFBAF /* Virtual_Tourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ED4F640022879EBF00FCFBAF /* Virtual_Tourist.xcdatamodeld */; };
 		ED4F640422879EC700FCFBAF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED4F640322879EC700FCFBAF /* Assets.xcassets */; };
 		ED4F640722879EC700FCFBAF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED4F640522879EC700FCFBAF /* LaunchScreen.storyboard */; };
+		ED4F640F228895F800FCFBAF /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4F640E228895F800FCFBAF /* PhotoAlbumViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		ED4F640322879EC700FCFBAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED4F640622879EC700FCFBAF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED4F640822879EC700FCFBAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ED4F640E228895F800FCFBAF /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				ED4F640522879EC700FCFBAF /* LaunchScreen.storyboard */,
 				ED4F640822879EC700FCFBAF /* Info.plist */,
 				ED4F640022879EBF00FCFBAF /* Virtual_Tourist.xcdatamodeld */,
+				ED4F640E228895F800FCFBAF /* PhotoAlbumViewController.swift */,
 			);
 			path = "Virtual Tourist";
 			sourceTree = "<group>";
@@ -141,6 +144,7 @@
 				ED4F63FC22879EBF00FCFBAF /* TravelLocationsMapViewController.swift in Sources */,
 				ED4F640222879EBF00FCFBAF /* Virtual_Tourist.xcdatamodeld in Sources */,
 				ED4F63FA22879EBF00FCFBAF /* AppDelegate.swift in Sources */,
+				ED4F640F228895F800FCFBAF /* PhotoAlbumViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
