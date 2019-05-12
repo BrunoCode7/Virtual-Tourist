@@ -12,6 +12,8 @@ import MapKit
 class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
+    var dataController : DataController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
