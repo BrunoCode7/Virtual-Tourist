@@ -8,15 +8,19 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     var dataController : DataController!
-    
+    var gAnnotations = [MKPointAnnotation]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        gAnnotations=getFetchedAnnotations()
+        mapView.addAnnotations(gAnnotations)
         // Do any additional setup after loading the view, typically from a nib.
     }
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -45,13 +49,43 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     }
     
     
+    private func getFetchedAnnotations() -> [MKPointAnnotation]{
+        var annotations = [MKPointAnnotation]()
+        let fetchedRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchedRequest.sortDescriptors = [sortDescriptor]
+        if let result = try? dataController.viewContext.fetch(fetchedRequest) {
+            print(result.debugDescription)
+            for pin in result{
+                let annotation = MKPointAnnotation()
+                annotation.coordinate.latitude = pin.latitude
+                annotation.coordinate.longitude = pin.longitude
+                annotations.append(annotation)
+            }
+        }
+        return annotations
+    }
+    
+    private func addAnnotation(coordinates: CLLocationCoordinate2D){
+        let pin = Pin(context: dataController.viewContext)
+        pin.creationDate = Date()
+        pin.latitude = coordinates.latitude
+        pin.longitude = coordinates.longitude
+        try? dataController.viewContext.save()
+        let annotation = MKPointAnnotation()
+        annotation.coordinate.latitude = pin.latitude
+        annotation.coordinate.longitude = pin.longitude
+        gAnnotations.insert(annotation, at: 0)
+        
+    }
+    
     @IBAction func onMapLongPress(_ sender: UILongPressGestureRecognizer) {
         if sender.state == UILongPressGestureRecognizer.State.began{
             let location = sender.location(in: self.mapView)
             
             let coordinates = self.mapView.convert(location, toCoordinateFrom: self.mapView)
             
-            
+            addAnnotation(coordinates: coordinates)
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinates
             
