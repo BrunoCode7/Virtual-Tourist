@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         dataController.load()
         
-        let travelLocationMapViewController = window?.rootViewController as! TravelLocationsMapViewController
+        let navigationViewController = window?.rootViewController as! UINavigationController
+        let travelLocationMapViewController = navigationViewController.topViewController as! TravelLocationsMapViewController
         travelLocationMapViewController.dataController = dataController
         return true
     }

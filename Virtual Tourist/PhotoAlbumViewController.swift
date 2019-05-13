@@ -11,9 +11,13 @@ import MapKit
 class PhotoAlbumViewController: UIViewController,MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
+    var dataController:DataController!
+    var chosencoordinates = CLLocationCoordinate2D()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        addPhotoAnotation(coordinates: chosencoordinates)
         // Do any additional setup after loading the view.
     }
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -33,5 +37,14 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate {
         }
         
         return pinView
+    }
+    
+    private func addPhotoAnotation(coordinates:CLLocationCoordinate2D){
+        let annotation = MKPointAnnotation()
+        annotation.coordinate=coordinates
+        let regionRadius: CLLocationDistance = 30000
+        let coordinateRegion = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+        mapView.addAnnotation(annotation)
+        mapView.setRegion(coordinateRegion, animated: true)
     }
 }

@@ -14,6 +14,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     var dataController : DataController!
+    var gcoordinates = CLLocationCoordinate2D()
     var gAnnotations = [MKPointAnnotation]()
 
     override func viewDidLoad() {
@@ -23,8 +24,21 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotations(gAnnotations)
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+    }
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         print(view.annotation?.coordinate)
+        gcoordinates = (view.annotation?.coordinate)!
+        self.performSegue(withIdentifier: "showAlbum", sender: self)
     }
 
     
@@ -77,6 +91,14 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         annotation.coordinate.longitude = pin.longitude
         gAnnotations.insert(annotation, at: 0)
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showAlbum"{
+            let photoAlbumeController = segue.destination as! PhotoAlbumViewController
+            photoAlbumeController.chosencoordinates = gcoordinates
+            photoAlbumeController.dataController = dataController
+        }
     }
     
     @IBAction func onMapLongPress(_ sender: UILongPressGestureRecognizer) {
