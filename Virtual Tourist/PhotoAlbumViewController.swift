@@ -10,6 +10,8 @@ import UIKit
 import MapKit
 class PhotoAlbumViewController: UIViewController,MKMapViewDelegate {
     
+    @IBOutlet weak var newCollectionButton: UIButton!
+    @IBOutlet weak var noImagesLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     var dataController:DataController!
     var chosencoordinates = CLLocationCoordinate2D()
@@ -18,6 +20,11 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate {
         super.viewDidLoad()
         mapView.delegate = self
         addPhotoAnotation(coordinates: chosencoordinates)
+        FlickerClient.getPhotosForLocaion(coordinates: chosencoordinates) { (photoData, error) in
+            if error == nil{
+                    // do task with the url
+            }
+        }
         // Do any additional setup after loading the view.
     }
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
