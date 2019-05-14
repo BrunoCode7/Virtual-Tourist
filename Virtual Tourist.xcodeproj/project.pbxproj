@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED4C4F61228AEC4A001822E7 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4C4F60228AEC4A001822E7 /* CollectionViewCell.swift */; };
 		ED4F63FA22879EBF00FCFBAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4F63F922879EBF00FCFBAF /* AppDelegate.swift */; };
 		ED4F63FC22879EBF00FCFBAF /* TravelLocationsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4F63FB22879EBF00FCFBAF /* TravelLocationsMapViewController.swift */; };
 		ED4F63FF22879EBF00FCFBAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED4F63FD22879EBF00FCFBAF /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ED4C4F60228AEC4A001822E7 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		ED4F63F622879EBF00FCFBAF /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED4F63F922879EBF00FCFBAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ED4F63FB22879EBF00FCFBAF /* TravelLocationsMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelLocationsMapViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				ED4F640E228895F800FCFBAF /* PhotoAlbumViewController.swift */,
 				ED4F64102288A5CA00FCFBAF /* DataController.swift */,
 				ED9CDD0C2289AD4400FF9C57 /* FlickerClient.swift */,
+				ED4C4F60228AEC4A001822E7 /* CollectionViewCell.swift */,
 			);
 			path = "Virtual Tourist";
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 				ED4F64112288A5CA00FCFBAF /* DataController.swift in Sources */,
 				ED9CDD0D2289AD4400FF9C57 /* FlickerClient.swift in Sources */,
 				ED4F63FC22879EBF00FCFBAF /* TravelLocationsMapViewController.swift in Sources */,
+				ED4C4F61228AEC4A001822E7 /* CollectionViewCell.swift in Sources */,
 				ED4F640222879EBF00FCFBAF /* Virtual_Tourist.xcdatamodeld in Sources */,
 				ED4F63FA22879EBF00FCFBAF /* AppDelegate.swift in Sources */,
 				ED4F640F228895F800FCFBAF /* PhotoAlbumViewController.swift in Sources */,

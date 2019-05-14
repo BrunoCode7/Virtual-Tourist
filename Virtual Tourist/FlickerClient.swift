@@ -10,10 +10,10 @@ import Foundation
 import MapKit
 
 struct resoponseObejct : Codable{
-    var photos:photos
+    var photos:photos?
 }
 struct photos : Codable{
-    var photo:[photosUrl]
+    var photo:[photosUrl]?
 }
 struct photosUrl :Codable{
     var url_m:String
@@ -21,17 +21,22 @@ struct photosUrl :Codable{
 
 class FlickerClient{
     
-    static func getPhotosForLocaion(coordinates: CLLocationCoordinate2D, completionHandler:@escaping (_ photoData:Photo?, _ error:Error?)->Void){
+    static func getPhotosArrayFromLocation(coordinates: CLLocationCoordinate2D, completionHandler:@escaping (_ photosUrlArray:[photosUrl]?)->Void){
         
         let photosUrl = URL(string: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=827690026b30bbc71adf95e7da741116&lat=\(coordinates.latitude)&lon=\(coordinates.longitude)&format=json&nojsoncallback=1&extras=url_m")!
         
         let task = URLSession.shared.dataTask(with: photosUrl) { (data, response, error) in
             
-            if error == nil{
+            if let urlsData = data {
                 do{
-                    let photosUrlSession = try JSONDecoder().decode(resoponseObejct.self, from: data!)
-                    print(photosUrlSession.photos.photo[0].url_m)
+                    let photosUrlSession = try JSONDecoder().decode(resoponseObejct.self, from: urlsData)
                     
+                    guard let photosUrlArray = photosUrlSession.photos!.photo else {
+                        print("no images")
+                        completionHandler(nil)
+                        return
+                    }
+                    completionHandler(photosUrlArray)
                 }catch{
                     print(error.localizedDescription)
                 }
@@ -40,5 +45,17 @@ class FlickerClient{
         }
         task.resume()
         
+    }
+    
+    static func getImageFromUrl(photoUrlString:String, completionHandler:(_ image:UIImage?) -> Void){
+        let photoUrl = URL(string: photoUrlString)!
+        var Image = UIImage()
+        do {
+            Image = UIImage(data: try Data(contentsOf: photoUrl))!
+            completionHandler(Image)
+        }catch{
+            completionHandler(nil)
+            print(error.localizedDescription)
+        }
     }
 }

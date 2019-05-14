@@ -78,19 +78,28 @@
                                         <rect key="frame" x="0.0" y="164.5" width="320" height="301.5"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="h1d-0I-w6W">
-                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="itemSize" width="100" height="100"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" id="3sw-bs-RP1">
-                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="photoCell" id="3sw-bs-RP1" customClass="CollectionViewCell" customModule="Virtual_Tourist" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1tj-13-qd6">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
+                                                    </subviews>
                                                 </view>
+                                                <connections>
+                                                    <outlet property="Image" destination="1tj-13-qd6" id="2JY-av-wU6"/>
+                                                </connections>
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
@@ -111,6 +120,8 @@
                         <viewLayoutGuide key="safeArea" id="UpR-Qa-sWQ"/>
                     </view>
                     <connections>
+                        <outlet property="collectionAlbum" destination="eLQ-dp-ce5" id="A5a-hl-vKe"/>
+                        <outlet property="flowLayout" destination="h1d-0I-w6W" id="1C9-vJ-vzh"/>
                         <outlet property="mapView" destination="13W-Zb-5iq" id="IW0-i2-YX4"/>
                         <outlet property="newCollectionButton" destination="1Et-tW-vG0" id="3hK-SQ-1MK"/>
                         <outlet property="noImagesLabel" destination="ccQ-GO-FYP" id="zVy-1j-8Wa"/>
@@ -118,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5dD-nt-t5I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1002" y="71"/>
+            <point key="canvasLocation" x="1001.25" y="70.774647887323951"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="peO-LB-GzW">
