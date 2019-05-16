@@ -11,7 +11,7 @@
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="pin" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Pin" positionX="-358" positionY="-740" width="128" height="105"/>
         <element name="Photo" positionX="-145" positionY="-751" width="128" height="75"/>
+        <element name="Pin" positionX="-358" positionY="-740" width="128" height="105"/>
     </elements>
 </model>

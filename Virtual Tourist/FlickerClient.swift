@@ -32,7 +32,6 @@ class FlickerClient{
                     let photosUrlSession = try JSONDecoder().decode(resoponseObejct.self, from: urlsData)
                     
                     guard let photosUrlArray = photosUrlSession.photos!.photo else {
-                        print("no images")
                         completionHandler(nil)
                         return
                     }

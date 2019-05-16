@@ -16,6 +16,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     var dataController : DataController!
     var gcoordinates = CLLocationCoordinate2D()
     var gAnnotations = [MKPointAnnotation]()
+    var gPin = Pin()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +91,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         annotation.coordinate.latitude = pin.latitude
         annotation.coordinate.longitude = pin.longitude
         gAnnotations.insert(annotation, at: 0)
+        gPin = pin
         
     }
     
@@ -98,6 +100,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
             let photoAlbumeController = segue.destination as! PhotoAlbumViewController
             photoAlbumeController.chosencoordinates = gcoordinates
             photoAlbumeController.dataController = dataController
+            photoAlbumeController.chosenPin = gPin
         }
     }
     
