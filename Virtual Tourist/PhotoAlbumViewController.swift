@@ -20,8 +20,8 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
     @IBOutlet weak var noImagesLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
     var dataController:DataController!
-    var chosencoordinates = CLLocationCoordinate2D()
-    var chosenPin = Pin()
+    var chosencoordinates : CLLocationCoordinate2D!
+    var pin : Pin!
     private var gPhotosArray = [photosUrl]()
     private var gNumberOfPhotos = Int()
     private var gFetchedPhotos = [Photo]()
@@ -34,7 +34,7 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
         collectionAlbum.delegate = self
         collectionAlbum.dataSource = self
         addPhotoAnotation(coordinates: chosencoordinates)
-        if let fetchedData = fetchPhotos(pin: chosenPin){
+        if let fetchedData = fetchPhotos(){
             if fetchedData.count > 0 {
                 isCoreData = true
                 gNumberOfPhotos = fetchedData.count
@@ -95,6 +95,7 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
                 FlickerClient.getImageFromUrl(photoUrlString: gPhotosArray[(indexPath as NSIndexPath).row].url_m) { (image) in
                     if image != nil{
                         DispatchQueue.main.async {
+                            self.addPhotoToCoreData(image: image!)
                             cell.Image.image = image
                         }
                     }
@@ -131,14 +132,30 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    private func fetchPhotos(pin:Pin) -> [Photo]?{
+    private func fetchPhotos() -> [Photo]?{
         let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
-        let predicate = NSPredicate(format: "'Pin' == %@", pin)
+        print(pin.debugDescription)
+        let predicate = NSPredicate(format: "pin == %@", pin)
+
         fetchRequest.predicate = predicate
         guard let results = try? dataController.viewContext.fetch(fetchRequest) else{
             print("No Photos in the store")
             return nil
         }
+        print(results.debugDescription)
         return results
+    }
+    
+    private func addPhotoToCoreData(image:UIImage){
+        let photo = Photo(context: dataController.viewContext)
+        let imgData = image.jpegData(compressionQuality: 1)
+        photo.photoData = imgData
+        photo.pin = pin
+        do{
+            try dataController.viewContext.save()
+            print("photo saved to core data")
+        }catch{
+            print(error.localizedDescription)
+        }
     }
 }

@@ -16,7 +16,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     var dataController : DataController!
     var gcoordinates = CLLocationCoordinate2D()
     var gAnnotations = [MKPointAnnotation]()
-    var gPin = Pin()
+    var gPin:Pin!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +39,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         print(view.annotation?.coordinate)
         gcoordinates = (view.annotation?.coordinate)!
+        gPin = testFetch(latitude: (view.annotation?.coordinate.latitude)!)
         self.performSegue(withIdentifier: "showAlbum", sender: self)
     }
 
@@ -71,10 +72,10 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         fetchedRequest.sortDescriptors = [sortDescriptor]
         if let result = try? dataController.viewContext.fetch(fetchedRequest) {
             print(result.debugDescription)
-            for pin in result{
+            for pinL in result{
                 let annotation = MKPointAnnotation()
-                annotation.coordinate.latitude = pin.latitude
-                annotation.coordinate.longitude = pin.longitude
+                annotation.coordinate.latitude = pinL.latitude
+                annotation.coordinate.longitude = pinL.longitude
                 annotations.append(annotation)
             }
         }
@@ -91,7 +92,6 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         annotation.coordinate.latitude = pin.latitude
         annotation.coordinate.longitude = pin.longitude
         gAnnotations.insert(annotation, at: 0)
-        gPin = pin
         
     }
     
@@ -100,7 +100,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
             let photoAlbumeController = segue.destination as! PhotoAlbumViewController
             photoAlbumeController.chosencoordinates = gcoordinates
             photoAlbumeController.dataController = dataController
-            photoAlbumeController.chosenPin = gPin
+            photoAlbumeController.pin = gPin
         }
     }
     
@@ -115,6 +115,26 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
             annotation.coordinate = coordinates
             
             self.mapView.addAnnotation(annotation)
+        }
+        
+    }
+    
+    private func testFetch(latitude:Double)-> Pin?{
+        let fetchrequest:NSFetchRequest<Pin> = Pin.fetchRequest()
+        let lat = NSNumber.init(value: latitude)
+        let predicate = NSPredicate(format: "latitude == %@", lat)
+        fetchrequest.predicate = predicate
+
+        guard let results = try? dataController.viewContext.fetch(fetchrequest) else{
+                        print("the result is nil")
+            return nil
+
+        }
+        if results.count > 0 {
+            return results[0]
+        }else{
+            print("empty result array")
+            return nil
         }
         
     }
