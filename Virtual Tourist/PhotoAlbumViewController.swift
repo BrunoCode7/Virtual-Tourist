@@ -33,6 +33,7 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
         mapView.delegate = self
         collectionAlbum.delegate = self
         collectionAlbum.dataSource = self
+        newCollectionButton.isEnabled = false
         addPhotoAnotation(coordinates: chosencoordinates)
         if let fetchedData = fetchPhotos(){
             if fetchedData.count > 0 {
@@ -101,6 +102,9 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
                     }
                 }}
         
+        if gFetchedPhotos.count == ((indexPath as NSIndexPath).row)+1 || gPhotosArray.count == ((indexPath as NSIndexPath).row)+1 {
+            newCollectionButton.isEnabled = true
+        }
         return cell
     }
     
