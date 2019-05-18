@@ -25,7 +25,6 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
     private var gPhotosArray = [photosUrl]()
     private var gNumberOfPhotos = Int()
     private var gFetchedPhotos = [Photo]()
-    private var getDataFrom = "Internet"
     
     
     override func viewDidLoad() {
@@ -37,7 +36,6 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
         addPhotoAnotation(coordinates: chosencoordinates)
         if let fetchedData = fetchPhotos(){
             if fetchedData.count > 0 {
-                getDataFrom = "CoreData"
                 gNumberOfPhotos = fetchedData.count
                 gFetchedPhotos = fetchedData
                 self.noImagesLabel.isHidden = true
@@ -101,18 +99,41 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell", for: indexPath) as! CollectionViewCell
-        if getDataFrom == "CoreData" {
-            cell.Image.image = UIImage(data: gFetchedPhotos[(indexPath as NSIndexPath).row].photoData!)
-            print("images from core data")
-        }else if getDataFrom == "Internet"{
-            print("images from internet")
-            FlickerClient.getImageFromUrl(photoUrlString: gPhotosArray[(indexPath as NSIndexPath).row].url_m) { (image) in
-                if image != nil{
-                    DispatchQueue.main.async {
-                        cell.Image.image = image
+//        if getDataFrom == "CoreData" {
+//            cell.Image.image = UIImage(data: gFetchedPhotos[(indexPath as NSIndexPath).row].photoData!)
+//            print("images from core data")
+//        }else if getDataFrom == "Internet"{
+//            print("images from internet")
+//            FlickerClient.getImageFromUrl(photoUrlString: gPhotosArray[(indexPath as NSIndexPath).row].url_m) { (image) in
+//                if image != nil{
+//                    DispatchQueue.main.async {
+//                        cell.Image.image = image
+//                    }
+//                }
+//            }}
+        let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
+        print(pin.debugDescription)
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        
+        fetchRequest.predicate = predicate
+        if let results = try? dataController.viewContext.fetch(fetchRequest) {
+            
+            if results.count > 0{
+                cell.Image.image = UIImage(data: results[(indexPath as NSIndexPath).row].photoData!)
+                print("images from core data")
+            }else{
+                print("images from internet")
+                FlickerClient.getImageFromUrl(photoUrlString: gPhotosArray[(indexPath as NSIndexPath).row].url_m) { (image) in
+                    if image != nil{
+                        DispatchQueue.main.async {
+                            cell.Image.image = image
+                        }
                     }
                 }
-            }}
+            }
+
+        }
+
     
         return cell
     }
@@ -172,9 +193,31 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        gNumberOfPhotos = gNumberOfPhotos - 1
+        collectionView.deleteItems(at: [indexPath])
+        gFetchedPhotos.remove(at: indexPath.item)
+        let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        
+        fetchRequest.predicate = predicate
+        guard let results = try? dataController.viewContext.fetch(fetchRequest) else{
+            print("No Photos in the store 12")
+            return
+        }
+        
+        dataController.viewContext.delete(results[indexPath.item])
+        do{
+            try dataController.viewContext.save()
+        }catch{
+            print(error.localizedDescription)
+            print("exception")
+        }
+    }
+    
+    
     @IBAction func newCollectionButton(_ sender: Any) {
         let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
-        print(pin.debugDescription)
         let predicate = NSPredicate(format: "pin == %@", pin)
         
         fetchRequest.predicate = predicate
@@ -190,9 +233,8 @@ class PhotoAlbumViewController: UIViewController,MKMapViewDelegate,UICollectionV
             try dataController.viewContext.save()
         }catch{
             print(error.localizedDescription)
+            print("exception")
         }
-        getDataFrom = "None"
-        collectionAlbum.reloadData()
         
         
         FlickerClient.getPhotosArrayFromLocation(coordinates: chosencoordinates) { (photoData) in

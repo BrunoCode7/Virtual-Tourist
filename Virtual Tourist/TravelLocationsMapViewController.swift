@@ -41,6 +41,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         gcoordinates = (view.annotation?.coordinate)!
         gPin = testFetch(latitude: (view.annotation?.coordinate.latitude)!)
         self.performSegue(withIdentifier: "showAlbum", sender: self)
+        mapView.deselectAnnotation(view.annotation, animated: true)
     }
 
     

@@ -22,8 +22,8 @@ struct photosUrl :Codable{
 class FlickerClient{
     
     static func getPhotosArrayFromLocation(coordinates: CLLocationCoordinate2D, completionHandler:@escaping (_ photosUrlArray:[photosUrl]?)->Void){
-        
-        let photosUrl = URL(string: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=827690026b30bbc71adf95e7da741116&lat=\(coordinates.latitude)&lon=\(coordinates.longitude)&format=json&nojsoncallback=1&extras=url_m")!
+        let randomPage = Int.random(in: 1...10)
+        let photosUrl = URL(string: "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=827690026b30bbc71adf95e7da741116&lat=\(coordinates.latitude)&lon=\(coordinates.longitude)&per_page=20&page=\(randomPage)&format=json&nojsoncallback=1&extras=url_m")!
         
         let task = URLSession.shared.dataTask(with: photosUrl) { (data, response, error) in
             
